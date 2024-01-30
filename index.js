@@ -1,8 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger-output.json');
+
 
 app
+  .use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
   .use(cors())
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
@@ -12,7 +16,7 @@ const db = require('./models');
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    useUnifiedTopology: true
   })
   .then(() => {
     console.log('Connected to the database!');
